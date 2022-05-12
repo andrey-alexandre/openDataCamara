@@ -28,21 +28,27 @@ deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo,
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   
   url <- glue::glue('deputados?{filter}')
-  api_answer <- call_api(url)
+  
+  api_answer <- list()
+  api_answer$dados <- call_api(url)
   attr(api_answer, 'class') <- 'deputados'
   
   # return(value)
   return(api_answer)
 }
 
-get_despesas.deputado <- function(obj, idLegislatura){
-  url <- glue::glue('deputados/{obj$id}/despesas')
-  value <- call_api(url)
+get_despesas <- function(obj){
+  urls <- glue::glue('deputados/{obj$dados$id}/despesas')
   
+  despesas <- data.frame()
+  for(url in urls){
+    api_answer <- call_api(url)
+    despesas <- dplyr::bind_rows(despesas, api_answer)
+  } 
+  
+  return(despesas)
 }
 
-felipeRigoni <- deputado('Felipe Rigoni')
-print(felipeRigoni)
 
 
 
