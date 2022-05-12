@@ -1,0 +1,44 @@
+version: "3.9"
+   
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    networks:
+      static-network-politics:
+        ipv4_address: 172.50.128.4
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:1234@mongo:27017/
+    networks:
+      static-network-politics:
+        ipv4_address: 172.50.128.5
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: politics
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./Data:/var/lib/postgresql/root
+    ports:
+      - 5432:5432
+    networks:
+      static-network-politics:
+        ipv4_address: 172.50.128.3
+        
+networks:
+  static-network-politics:
+    ipam:
+      config:
+        - subnet: 172.50.128.0/24
