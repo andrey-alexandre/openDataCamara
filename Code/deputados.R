@@ -13,7 +13,7 @@ call_api <- function(url){
 }
 
 
-deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo, pagina=1, itens=200, dataInicio, dataFim){
+deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(id)){
     filter <- glue::glue('id={id}')
   }else if(!missing(nome)){
@@ -26,6 +26,8 @@ deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo,
   if(!missing(siglaSexo)) filter <- glue::glue('{filter}&siglaSexo={siglaSexo}')
   if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
+  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
   
   url <- glue::glue('deputados?{filter}')
   
@@ -33,7 +35,6 @@ deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo,
   api_answer$dados <- call_api(url)
   attr(api_answer, 'class') <- 'deputados'
   
-  # return(value)
   return(api_answer)
 }
 
@@ -91,7 +92,7 @@ get_discursos <- function(obj, id, idLegislatura, dataInicio, dataFim, pagina=1,
 }
 
 
-get_eventos <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
+get_eventos.deputados <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(obj)){
     id_filter <- obj$dados$id
   }else{
@@ -99,7 +100,6 @@ get_eventos <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
   }
   
   filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idLegislatura)) filter <- glue::glue('{filter}&idLegislatura={idLegislatura}')
   if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   
@@ -167,7 +167,6 @@ get_orgaos.deputados <- function(obj, id, dataInicio, dataFim, pagina=1, itens=2
   }
   
   filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idLegislatura)) filter <- glue::glue('{filter}&idLegislatura={idLegislatura}')
   if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   
@@ -214,7 +213,6 @@ get_mesas <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
   }
   
   filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idLegislatura)) filter <- glue::glue('{filter}&idLegislatura={idLegislatura}')
   if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   

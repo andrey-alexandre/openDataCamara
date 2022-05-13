@@ -35,6 +35,8 @@ proposicoes <- function(id, siglaTipo, numero, ano, idDeputadoAutor, autor, sigl
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   if(!missing(dataApresentacaoInicio)) filter <- glue::glue('{filter}&dataApresentacaoInicio={dataApresentacaoInicio}')
   if(!missing(dataApresentacaoFim)) filter <- glue::glue('{filter}&dataApresentacaoFim={dataApresentacaoFim}')
+  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
+  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
   
   if(is.object(filter)){url <- glue::glue('proposicoes?{filter}')}else{url <- glue::glue('proposicoes')}
   

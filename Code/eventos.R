@@ -27,6 +27,8 @@ eventos <- function(id, codTipoEvento, codSituacao, codTipoOrgao, idOrgao, dataI
   if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
   if(!missing(horaInicio)) filter <- glue::glue('{filter}&horaInicio={horaInicio}')
   if(!missing(horaFim)) filter <- glue::glue('{filter}&horaFim={horaFim}')
+  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
+  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
   
   if(is.object(filter)){url <- glue::glue('eventos?{filter}')}else{url <- glue::glue('eventos')}
   
