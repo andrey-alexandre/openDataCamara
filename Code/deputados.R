@@ -15,21 +15,21 @@ call_api <- function(url){
 
 deputados <- function(id, nome, idLegislatura, siglaUF, siglaPartido, siglaSexo, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(id)){
-    filter <- glue::glue('id={id}')
+    filters <- glue::glue('id={id}')
   }else if(!missing(nome)){
-    filter <- glue::glue('nome={nome}')
+    filters <- glue::glue('nome={nome}')
   }else if(!missing(idLegislatura)){
-    filter <- glue::glue('idLegislatura={idLegislatura}')
+    filters <- glue::glue('idLegislatura={idLegislatura}')
   }
-  if(!missing(siglaUF)) filter <- glue::glue('{filter}&siglaUF={siglaUF}')
-  if(!missing(siglaPartido)) filter <- glue::glue('{filter}&siglaPartido={siglaPartido}')
-  if(!missing(siglaSexo)) filter <- glue::glue('{filter}&siglaSexo={siglaSexo}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
-  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
-  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
+  if(!missing(siglaUF)) filters <- glue::glue('{filters}&siglaUF={siglaUF}')
+  if(!missing(siglaPartido)) filters <- glue::glue('{filters}&siglaPartido={siglaPartido}')
+  if(!missing(siglaSexo)) filters <- glue::glue('{filters}&siglaSexo={siglaSexo}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
+  if(!missing(pagina)) filters <- glue::glue('{filters}&pagina={pagina}')
+  if(!missing(itens)) filters <- glue::glue('{filters}&itens={itens}')
   
-  url <- glue::glue('deputados?{filter}')
+  url <- glue::glue('deputados?{filters}')
   
   api_answer <- list()
   api_answer$dados <- call_api(url)
@@ -46,15 +46,15 @@ get_despesas <- function(obj, id, idLegislatura, ano, mes, cnpjCpfFornecedor, pa
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idLegislatura)) filter <- glue::glue('{filter}&idLegislatura={idLegislatura}')
-  if(!missing(ano)) filter <- glue::glue('{filter}&ano={ano}')
-  if(!missing(mes)) filter <- glue::glue('{filter}&mes={mes}')
-  if(!missing(cnpjCpfFornecedor)) filter <- glue::glue('{filter}&cnpjCpfFornecedor={cnpjCpfFornecedor}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(idLegislatura)) filters <- glue::glue('{filters}&idLegislatura={idLegislatura}')
+  if(!missing(ano)) filters <- glue::glue('{filters}&ano={ano}')
+  if(!missing(mes)) filters <- glue::glue('{filters}&mes={mes}')
+  if(!missing(cnpjCpfFornecedor)) filters <- glue::glue('{filters}&cnpjCpfFornecedor={cnpjCpfFornecedor}')
 
   despesas <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/despesas?{filter}')
+    url <- glue::glue('deputados/{iter_id}/despesas?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idDeputado'] = iter_id
@@ -73,14 +73,14 @@ get_discursos <- function(obj, id, idLegislatura, dataInicio, dataFim, pagina=1,
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idLegislatura)) filter <- glue::glue('{filter}&idLegislatura={idLegislatura}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(idLegislatura)) filters <- glue::glue('{filters}&idLegislatura={idLegislatura}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
   
   discursos <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/discursos?{filter}')
+    url <- glue::glue('deputados/{iter_id}/discursos?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idDeputado'] = iter_id
@@ -99,13 +99,13 @@ get_eventos.deputados <- function(obj, id, dataInicio, dataFim, pagina=1, itens=
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
   
   eventos <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/eventos?{filter}')
+    url <- glue::glue('deputados/{iter_id}/eventos?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idDeputado'] = iter_id
@@ -166,13 +166,13 @@ get_orgaos.deputados <- function(obj, id, dataInicio, dataFim, pagina=1, itens=2
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
   
   orgaos <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/orgaos?{filter}')
+    url <- glue::glue('deputados/{iter_id}/orgaos?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idDeputado'] = iter_id
@@ -212,13 +212,13 @@ get_mesas <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
   
   mesas <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/mesas?{filter}')
+    url <- glue::glue('deputados/{iter_id}/mesas?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idDeputado'] = iter_id

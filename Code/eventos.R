@@ -15,22 +15,22 @@ call_api <- function(url){
 
 eventos <- function(id, codTipoEvento, codSituacao, codTipoOrgao, idOrgao, dataInicio, dataFim, horaInicio, horaFim, pagina=1, itens=200){
   if(!missing(id)){
-    filter <- glue::glue('id={id}')
+    filters <- glue::glue('id={id}')
   }else if(!missing(codTipoEvento)){
-    filter <- glue::glue('codTipoEvento={codTipoEvento}')
+    filters <- glue::glue('codTipoEvento={codTipoEvento}')
   }else if(!missing(codSituacao)){
-    filter <- glue::glue('codSituacao={codSituacao}')
+    filters <- glue::glue('codSituacao={codSituacao}')
   }
-  if(!missing(codTipoOrgao)) filter <- glue::glue('{filter}&codTipoOrgao={codTipoOrgao}')
-  if(!missing(idOrgao)) filter <- glue::glue('{filter}&idOrgao={idOrgao}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
-  if(!missing(horaInicio)) filter <- glue::glue('{filter}&horaInicio={horaInicio}')
-  if(!missing(horaFim)) filter <- glue::glue('{filter}&horaFim={horaFim}')
-  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
-  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
+  if(!missing(codTipoOrgao)) filters <- glue::glue('{filters}&codTipoOrgao={codTipoOrgao}')
+  if(!missing(idOrgao)) filters <- glue::glue('{filters}&idOrgao={idOrgao}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
+  if(!missing(horaInicio)) filters <- glue::glue('{filters}&horaInicio={horaInicio}')
+  if(!missing(horaFim)) filters <- glue::glue('{filters}&horaFim={horaFim}')
+  if(!missing(pagina)) filters <- glue::glue('{filters}&pagina={pagina}')
+  if(!missing(itens)) filters <- glue::glue('{filters}&itens={itens}')
   
-  if(is.object(filter)){url <- glue::glue('eventos?{filter}')}else{url <- glue::glue('eventos')}
+  if(is.object(filters)){url <- glue::glue('eventos?{filters}')}else{url <- glue::glue('eventos')}
   
   api_answer <- list()
   api_answer$dados <- call_api(url)

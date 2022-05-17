@@ -17,28 +17,28 @@ proposicoes <- function(id, siglaTipo, numero, ano, idDeputadoAutor, autor, sigl
                         siglaUfAutor, keywords, tramitacaoSenado, dataInicio, dataFim, dataApresentacaoInicio,
                         dataApresentacaoFim, pagina=1, itens=200){
   if(!missing(id)){
-    filter <- glue::glue('id={id}')
+    filter_ <- glue::glue('id={id}')
   }else if(!missing(siglaTipo)){
-    filter <- glue::glue('siglaTipo={siglaTipo}')
+    filters <- glue::glue('siglaTipo={siglaTipo}')
   }else if(!missing(numero)){
-    filter <- glue::glue('numero={numero}')
+    filters <- glue::glue('numero={numero}')
   }
-  if(!missing(ano)) filter <- glue::glue('{filter}&ano={ano}')
-  if(!missing(idDeputadoAutor)) filter <- glue::glue('{filter}&idDeputadoAutor={idDeputadoAutor}')
-  if(!missing(autor)) filter <- glue::glue('{filter}&autor={autor}')
-  if(!missing(siglaPartidoAutor)) filter <- glue::glue('{filter}&siglaPartidoAutor={siglaPartidoAutor}')
-  if(!missing(idPartidoAutor)) filter <- glue::glue('{filter}&idPartidoAutor={idPartidoAutor}')
-  if(!missing(siglaUfAutor)) filter <- glue::glue('{filter}&siglaUfAutor={siglaUfAutor}')
-  if(!missing(keywords)) filter <- glue::glue('{filter}&keywords={keywords}')
-  if(!missing(tramitacaoSenado)) filter <- glue::glue('{filter}&tramitacaoSenado={tramitacaoSenado}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
-  if(!missing(dataApresentacaoInicio)) filter <- glue::glue('{filter}&dataApresentacaoInicio={dataApresentacaoInicio}')
-  if(!missing(dataApresentacaoFim)) filter <- glue::glue('{filter}&dataApresentacaoFim={dataApresentacaoFim}')
-  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
-  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
+  if(!missing(ano)) filters <- glue::glue('{filters}&ano={ano}')
+  if(!missing(idDeputadoAutor)) filters <- glue::glue('{filters}&idDeputadoAutor={idDeputadoAutor}')
+  if(!missing(autor)) filters <- glue::glue('{filters}&autor={autor}')
+  if(!missing(siglaPartidoAutor)) filters <- glue::glue('{filters}&siglaPartidoAutor={siglaPartidoAutor}')
+  if(!missing(idPartidoAutor)) filters <- glue::glue('{filters}&idPartidoAutor={idPartidoAutor}')
+  if(!missing(siglaUfAutor)) filters <- glue::glue('{filters}&siglaUfAutor={siglaUfAutor}')
+  if(!missing(keywords)) filters <- glue::glue('{filters}&keywords={keywords}')
+  if(!missing(tramitacaoSenado)) filters <- glue::glue('{filters}&tramitacaoSenado={tramitacaoSenado}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
+  if(!missing(dataApresentacaoInicio)) filters <- glue::glue('{filters}&dataApresentacaoInicio={dataApresentacaoInicio}')
+  if(!missing(dataApresentacaoFim)) filters <- glue::glue('{filters}&dataApresentacaoFim={dataApresentacaoFim}')
+  if(!missing(pagina)) filters <- glue::glue('{filters}&pagina={pagina}')
+  if(!missing(itens)) filters <- glue::glue('{filters}&itens={itens}')
   
-  if(is.object(filter)){url <- glue::glue('proposicoes?{filter}')}else{url <- glue::glue('proposicoes')}
+  if(is.object(filters)){url <- glue::glue('proposicoes?{filters}')}else{url <- glue::glue('proposicoes')}
   
   api_answer <- list()
   api_answer$dados <- call_api(url)

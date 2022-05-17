@@ -15,19 +15,19 @@ call_api <- function(url){
 
 orgaos <- function(id, sigla, codTipoOrgao, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(id)){
-    filter <- glue::glue('id={id}')
+    filters <- glue::glue('id={id}')
   }else if(!missing(sigla)){
-    filter <- glue::glue('sigla={sigla}')
+    filters <- glue::glue('sigla={sigla}')
   }else if(!missing(codTipoOrgao)){
-    filter <- glue::glue('codTipoOrgao={codTipoOrgao}')
+    filters <- glue::glue('codTipoOrgao={codTipoOrgao}')
   }
   
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
-  if(!missing(pagina)) filter <- glue::glue('{filter}&pagina={pagina}')
-  if(!missing(itens)) filter <- glue::glue('{filter}&itens={itens}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
+  if(!missing(pagina)) filters <- glue::glue('{filters}&pagina={pagina}')
+  if(!missing(itens)) filters <- glue::glue('{filters}&itens={itens}')
 
-  if(is.object(filter)){url <- glue::glue('orgaos?{filter}')}else{url <- glue::glue('orgaos')}
+  if(is.object(filters)){url <- glue::glue('orgaos?{filters}')}else{url <- glue::glue('orgaos')}
   
   api_answer <- list()
   api_answer$dados <- call_api(url)
@@ -45,13 +45,13 @@ get_eventos.orgaos <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
   
   eventos <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('orgaos/{iter_id}/eventos?{filter}')
+    url <- glue::glue('orgaos/{iter_id}/eventos?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idOrgao'] = iter_id
@@ -70,13 +70,13 @@ get_membros <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
   
   membros <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('orgaos/{iter_id}/membros?{filter}')
+    url <- glue::glue('orgaos/{iter_id}/membros?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idOrgao'] = iter_id
@@ -95,14 +95,14 @@ get_votacoes.orgaos <- function(obj, id, idProposicao, dataInicio, dataFim, pagi
     id_filter <- id
   }
   
-  filter <- glue::glue("pagina={pagina}&itens={itens}")
-  if(!missing(idProposicao)) filter <- glue::glue('{filter}&idProposicao={idProposicao}')
-  if(!missing(dataInicio)) filter <- glue::glue('{filter}&dataInicio={dataInicio}')
-  if(!missing(dataFim)) filter <- glue::glue('{filter}&dataFim={dataFim}')
+  filters <- glue::glue("pagina={pagina}&itens={itens}")
+  if(!missing(idProposicao)) filters <- glue::glue('{filters}&idProposicao={idProposicao}')
+  if(!missing(dataInicio)) filters <- glue::glue('{filters}&dataInicio={dataInicio}')
+  if(!missing(dataFim)) filters <- glue::glue('{filters}&dataFim={dataFim}')
   
   votacoes <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('orgaos/{iter_id}/votacoes?{filter}')
+    url <- glue::glue('orgaos/{iter_id}/votacoes?{filters}')
     
     api_answer <- call_api(url)
     api_answer['idOrgao'] = iter_id
