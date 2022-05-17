@@ -205,7 +205,7 @@ get_profissoes <- function(obj, id){
 }
 
 
-get_mesas <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
+get_mesas.deputados <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(obj)){
     id_filter <- obj$dados$id
   }else{

@@ -9,3 +9,7 @@ get_votacoes <- function(obj, id, ...){
 get_eventos <- function(obj, id, ...){
   UseMethod('get_eventos')
 }
+
+get_mesas <- function(obj, id, ...){
+  UseMethod('get_mesas')
+}
