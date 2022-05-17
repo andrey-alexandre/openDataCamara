@@ -28,6 +28,7 @@ legislaturas <- function(id, data, pagina=1, itens=200){
   return(api_answer)
 }
 
+
 get_mesas.legislaturas <- function(obj, id, dataInicio, dataFim, pagina=1, itens=200){
   if(!missing(obj)){
     id_filter <- obj$dados$id
