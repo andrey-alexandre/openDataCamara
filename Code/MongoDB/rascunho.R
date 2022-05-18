@@ -32,25 +32,14 @@ for(ano_iter in 2000:2022){
 }
 
 
-legislaturas_collection$aggregate('
+deputados_collection$find('{"id":92346}')$aggregate('
 [
   {
-  "$project": {
-    "Acc_id": 1, 
-    "dataInicio": "$dataInicio", 
-    "dataFim": "$dataFim",
-    "idLegislatura": "$id"
+  "$lookup" : {
+     "from": "legislaturas",
+     "localField": "idLegislatura",
+     "foreignField": "id",
+     "as": "legislaturaInfo"
     }
-  },
-  {
-  "$merge" : {
-    "into": { "db": "deputados", "coll": "politics" }, "on": "idLegislatura",  "whenMatched": "replace", "whenNotMatched": "insert"
-    } 
   }
 ]')
-
-fb_locs = deputados_collection$aggregate('[]')
-fb_locs %>% 
-  inner_join(b$dados %>% select(id, dataInicio), by=c("entrada" = "id")) %>% 
-  inner_join(b$dados %>% select(id, dataFim), by=c("saida" = "id"))
-
