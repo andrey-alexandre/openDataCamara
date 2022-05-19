@@ -32,14 +32,24 @@ for(ano_iter in 2000:2022){
 }
 
 
-deputados_collection$find('{"id":92346}')$aggregate('
+deputados_por_legislatura <- deputados_collection$aggregate('
 [
+  {
+  "$match" : {"id":92346}
+  },
   {
   "$lookup" : {
      "from": "legislaturas",
      "localField": "idLegislatura",
      "foreignField": "id",
      "as": "legislaturaInfo"
+    }
+  },
+  {
+  "$project": {
+    "id": "$id",
+    "dataInicio": "$legislaturaInfo.dataInicio",
+    "dataFim": "$legislaturaInfo.dataFim"
     }
   }
 ]')
