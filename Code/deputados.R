@@ -46,6 +46,10 @@ get_despesas <- function(obj, id, idLegislatura, ano, mes, cnpjCpfFornecedor, pa
     id_filter <- id
   }
   
+  if(length(ano) > 1){
+    ano <- ano[1]:ano[2]
+  }
+  
   filters <- glue::glue("pagina={pagina}&itens={itens}")
   if(!missing(idLegislatura)) filters <- glue::glue('{filters}&idLegislatura={idLegislatura}')
   if(!missing(ano)) filters <- glue::glue('{filters}&ano={ano}')
@@ -54,12 +58,14 @@ get_despesas <- function(obj, id, idLegislatura, ano, mes, cnpjCpfFornecedor, pa
 
   despesas <- data.frame()
   for(iter_id in id_filter){
-    url <- glue::glue('deputados/{iter_id}/despesas?{filters}')
+    urls <- glue::glue('deputados/{iter_id}/despesas?{filters}')
     
-    api_answer <- call_api(url)
-    api_answer['idDeputado'] = iter_id
-    
-    despesas <- dplyr::bind_rows(despesas, api_answer)
+    for(url in urls){
+      api_answer <- call_api(url)
+      api_answer['idDeputado'] = iter_id
+      
+      despesas <- dplyr::bind_rows(despesas, api_answer)
+    }
   }
 
   return(despesas)

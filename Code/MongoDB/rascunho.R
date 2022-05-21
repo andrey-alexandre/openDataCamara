@@ -28,7 +28,6 @@ for(ano_iter in 2000:2022){
       print(glue::glue("No {mes_iter}º mês do ano {ano_iter} não há dados provenientes da API"))
     }
   }
-  
 }
 
 
@@ -53,3 +52,10 @@ deputados_por_legislatura <- deputados_collection$aggregate('
     }
   }
 ]')
+
+
+deputados_por_legislatura  %>% 
+  mutate_if(is.list, . %>% as.character %>% as.Date) %>% 
+  group_by(id) %>% 
+  summarise(dataInicio = lubridate::year(min(dataInicio)), dataFim = lubridate::year(max(dataFim)))
+  
