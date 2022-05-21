@@ -62,9 +62,11 @@ get_despesas <- function(obj, id, idLegislatura, ano, mes, cnpjCpfFornecedor, pa
     
     for(url in urls){
       api_answer <- call_api(url)
-      api_answer['idDeputado'] = iter_id
+      if(!is_empty(api_answer)){
+        api_answer['idDeputado'] = iter_id
+        despesas <- dplyr::bind_rows(despesas, api_answer)
+      }
       
-      despesas <- dplyr::bind_rows(despesas, api_answer)
     }
   }
 
