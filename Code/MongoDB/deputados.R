@@ -1,21 +1,5 @@
 library(tidyverse)
 source('Code/MongoDB/config.R')
-
-deputados_collection <- mongo(collection="deputados", db="politics", url=connection_string)
-
-for(idLegislatura_iter in 1:56){
-  deputado_list <- deputados(idLegislatura = idLegislatura_iter)
-  if(!is_empty(deputado_list$dados)){
-    deputados_collection$insert(deputado_list$dados)  
-  }else{
-    print(glue::glue("Na {idLegislatura_iter}ª legislatura não há dados a partir da API"))
-  }
-}
-
-
-
-library(tidyverse)
-source('Code/MongoDB/config.R')
 source('Code/deputados.R')
 
 #' Insert new deputies into the "Deputados" collection
