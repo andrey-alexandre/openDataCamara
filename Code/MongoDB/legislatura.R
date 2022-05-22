@@ -1,6 +1,6 @@
 library(tidyverse)
 source('Code/MongoDB/config.R')
-source('Code/legislaturas.R')
+source('Code/API/legislaturas.R')
 
 #' Insert new legislatures into the "Legislaturas" collection
 #' 

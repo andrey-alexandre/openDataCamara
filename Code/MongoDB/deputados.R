@@ -1,6 +1,6 @@
 library(tidyverse)
 source('Code/MongoDB/config.R')
-source('Code/deputados.R')
+source('Code/API/deputados.R')
 
 #' Insert new deputies into the "Deputados" collection
 #' 
