@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import time
+import sqlite3
 
 
 def create_args(item):
@@ -50,16 +51,30 @@ class Politics:
 
 
 if __name__ == '__main__':
-    r = Politics('deputados/178873/despesas')
-    r.run({'ano': [i for i in range(2017, 2023)], 'mes': [i for i in range(1, 13)], 'ordenarPor': 'ano', 'itens': 300})
-    r.data.shape
-
-    r2 = Politics('proposicoes')
-    arguments = {'ano': [i for i in range(2017, 2023)], 'idDeputadoAutor': 178873, 'dataInicio': '2017-01-01',
-                 'dataApresentacaoInicio': '2017-01-01', 'ordenarPor': 'ano', 'itens': 300}
-    r2.run(arguments)
-    r2.data.shape
+    con = sqlite3.connect("volume_data/Politics.db")
 
     r = Politics('deputados')
-    [r.run({'idLegislatura': i, 'itens': 300}) for i in range(1, 60)]
+    [r.run({'idLegislatura': i, 'itens': 300}) for i in [57]]
+    r.data.to_sql('historico_deputado', con=con, if_exists='append', index=False)
     r.data.shape
+
+    for idDeputado in r.data.id.unique().tolist():
+        print(f'Início da extração do deputado {idDeputado}!\n')
+
+        r2 = Politics(f'deputados/{idDeputado}/despesas')
+        r2.run({'ano': [i for i in range(2017, 2024)], 'mes': [i for i in range(1, 13)], 'ordenarPor': 'ano',
+                'itens': 300})
+
+        r3 = Politics('proposicoes')
+        arguments = {'ano': [i for i in range(2017, 2024)], 'idDeputadoAutor': idDeputado, 'dataInicio': '2017-01-01',
+                     'dataApresentacaoInicio': '2017-01-01', 'ordenarPor': 'ano', 'itens': 300}
+        r3.run(arguments)
+
+        print(f'\n Despesas do deputado de id {idDeputado}:\n', r2.data.shape)
+        if r2.data.shape[0] > 0:
+            r2.data['id_deputado'] = idDeputado
+            r2.data.to_sql('despesa_deputado', con=con, if_exists='append', index=False)
+        print(f'\n Proposições do deputado de id {idDeputado}:\n', r3.data.shape)
+        if r3.data.shape[0] > 0:
+            r3.data['id_deputado'] = idDeputado
+            r3.data.to_sql('proposicoes_deputado', con=con, if_exists='append', index=False)
